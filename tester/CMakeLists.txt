@@ -4,17 +4,20 @@
 cmake_minimum_required (VERSION 3.8)
 
 # Add source to this project's executable.
-add_executable (TestEnvironment "TestEnvironment.cpp" "TestEnvironment.h")
+#add_executable (TestEnvironment "TestEnvironment.cpp" "TestEnvironment.h")
 
 # TODO: Add tests and install targets if needed.
 # Добавить тесты:
+
+set(Executable, test)
+
 enable_testing()
 SET (TestEnvironment_TIMEOUT 100)
-add_test(FirstTest TestEnvironment 1 2 1)
-add_test(SecondTest TestEnvironment 0 2 -4)
-add_test(ThirdTest TestEnvironment 1)
-add_test(Test4 TestEnvironment 1 1)
-add_test(Test5 TestEnvironment 0 0 1)
+add_test(FirstTest Executable 1 2 1)
+add_test(SecondTest Executable 0 2 -4)
+add_test(ThirdTest Executable 1)
+add_test(Test4 Exexutable 1 1)
+add_test(Test5 Executable 0 0 1)
 
 # Установить поведение тестов:
 set_tests_properties(FirstTest SecondTest ThirdTest
