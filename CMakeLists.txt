@@ -11,30 +11,30 @@ cmake_minimum_required (VERSION 3.8)
 
 enable_testing()
 SET (TestEnvironment_TIMEOUT 100)
-add_test(FirstTest ${PROJECT_NAME} 1 2 1)
-add_test(SecondTest ${PROJECT_NAME} 0 2 -4)
-add_test(ThirdTest ${PROJECT_NAME} 1)
-add_test(Test4 ${PROJECT_NAME} 1 1)
-add_test(Test5 ${PROJECT_NAME} 0 0 1)
+add_test(Trivial_FirstTest ${PROJECT_NAME} 1 2 1)
+add_test(Normal_SecondTest ${PROJECT_NAME} 0 2 -4)
+add_test(Easy_ThirdTest ${PROJECT_NAME} 1)
+add_test(Hard_Test4 ${PROJECT_NAME} 1 1)
+add_test(Impossible_Test5 ${PROJECT_NAME} 0 0 1)
 
 # Установить поведение тестов:
-set_tests_properties(FirstTest SecondTest ThirdTest
+set_tests_properties(Trivial_FirstTest Normal_SecondTest Easy_ThirdTest
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
-set_tests_properties(FirstTest PROPERTIES
+set_tests_properties(Trivial_FirstTest PROPERTIES
 PASS_REGULAR_EXPRESSION "The result is: -1"
 FAIL_REGULAR_EXPRESSION "Error!")
 
-set_tests_properties(SecondTest PROPERTIES
+set_tests_properties(Normal_SecondTest PROPERTIES
 PASS_REGULAR_EXPRESSION "The result is: 2\*"
 FAIL_REGULAR_EXPRESSION "Error!")
 
-set_tests_properties(ThirdTest PROPERTIES
+set_tests_properties(Easy_ThirdTest PROPERTIES
 PASS_REGULAR_EXPRESSION "Error!")
 
-set_tests_properties(Test4 PROPERTIES
+set_tests_properties(Hard_Test4 PROPERTIES
 PASS_REGULAR_EXPRESSION "Error!")
 
-set_tests_properties(Test5 PROPERTIES
+set_tests_properties(Impossible_Test5 PROPERTIES
 PASS_REGULAR_EXPRESSION "Error!")
 
