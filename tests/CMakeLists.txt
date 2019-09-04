@@ -6,7 +6,9 @@ cmake_minimum_required (VERSION 3.8)
 # Add source to this project's executable.
 #add_executable (TestEnvironment "TestEnvironment.cpp" "TestEnvironment.h")
 
-set(STUDADDR "../../../student/build/${PROJECT_NAME}")
+# here will be set(STUDPROJNAME ...)
+
+set(STUDADDR "../../../student/build/${STUDPROJNAME}")
 
 # TODO: Add tests and install targets if needed.
 # Добавить тесты:
