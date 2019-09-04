@@ -13,7 +13,7 @@ set(STUDADDR "../../student/build/${PROJECT_NAME}")
 
 enable_testing()
 SET (TestEnvironment_TIMEOUT 100)
-add_test(Trivial_FirstTest ${PROJECT_NAME} fillHalfRed ex1.png ${STUDADDR} res.png 10 30)
+add_test(Trivial_FirstTest ${PROJECT_NAME} fillHalfRed ../ex1.png ${STUDADDR} res.png 10 30)
 
 # Установить поведение тестов:
 set_tests_properties(Trivial_FirstTest
