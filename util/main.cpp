@@ -3,12 +3,19 @@
 
 int main( void )
 {
-    // toolkit filter_name base_pic_name sudent_tool student_pic_name limitPix limitMSE
+    // 0toolkit
+    // 1filter_name
+    // 2base_pic_name
+    // 3sudent_tool
+    // 4student_pic_name
+    // 5limitPix
+    // 6limitMSE
     // toolkit near test images!
     try
     {
         png_toolkit testTool;
         testTool.load("ex1.png");
+        testTool.applyFilter(png_toolkit::Filter::FILL_HALF_RED);
         png_toolkit studTool;
         studTool.load("res.png");
 
