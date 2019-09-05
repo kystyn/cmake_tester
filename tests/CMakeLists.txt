@@ -22,5 +22,5 @@ set_tests_properties(Trivial_FirstTest
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
 set_tests_properties(Trivial_FirstTest PROPERTIES
-PASS_REGULAR_EXPRESSION "OK"
-FAIL_REGULAR_EXPRESSION "Error: ")
+PASS_REGULAR_EXPRESSION "OK OK"
+FAIL_REGULAR_EXPRESSION "Too many bad pixels: [d]{1,}")
