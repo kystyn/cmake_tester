@@ -29,12 +29,12 @@ int main( int argc, char *argv[] )
             if (diffPix < std::stoi(argv[5]))
                 std::cout << "OK ";
             else
-                std::cout << "Too many bad pixels: " << diffPix << " ";
+                std::cout << "BAD: Too many bad pixels: " << diffPix << " ";
 
             if (mse < std::stoi(argv[6]))
                 std::cout << "OK";
             else
-                std::cout << "Too big MSE: " << mse;
+                std::cout << "BAD: Too big MSE: " << mse;
         }
         else
             throw "Bad picture size/format";
