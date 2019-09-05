@@ -35,7 +35,7 @@ bool png_toolkit::save( const std::string &pictureName )
 float png_toolkit::mseDeviation( const png_toolkit &tool,
                               Error &err, int &diffPix ) const
 {
-    int res = 0;
+    float res = 0;
     diffPix = 0;
 
     if (imgData.w != tool.imgData.w ||
@@ -66,11 +66,11 @@ float png_toolkit::mseDeviation( const png_toolkit &tool,
          i += imgData.compPerPixel)
     {
         diffPix += euclNorm2(sub(imgData.pixels + i, tool.imgData.pixels + i)) != 0;
-        res += euclNorm2(sub(imgData.pixels + i, tool.imgData.pixels + i));
+        res += euclNorm2(sub(imgData.pixels + i, tool.imgData.pixels + i)) / float(imgData.w * imgData.h);
     }
 
     err = Error::Ok;
-    return res / float(imgData.w * imgData.h);
+    return res;
 }
 
 image_data png_toolkit::getPixelData( void ) const
