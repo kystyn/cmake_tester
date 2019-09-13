@@ -12,7 +12,7 @@ public:
     base( std::string const &name );
 
     virtual void operator()( image_data &imgData ) = 0;
+    static std::map<std::string, filter::base *> filters;
 };
-static std::map<std::string, filter::base *> filters;
 }
 #endif // BASE_FILTER_H

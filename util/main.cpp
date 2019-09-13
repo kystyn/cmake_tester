@@ -16,8 +16,8 @@ int main( int argc, char *argv[] )
 
         filter::red r("fillHalfRed");
 
-        auto f = filter::filters.find(argv[1]);
-        if (f != filter::filters.end())
+        auto f = filter::base::filters.find(argv[1]);
+        if (f != filter::base::filters.end())
             testTool.applyFilter(*(f->second));
         else
             throw "Bad filter";
