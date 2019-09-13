@@ -2,4 +2,5 @@ cmake_minimum_required(VERSION 2.8)
 
 project(tester_toolkit)
 add_executable(${PROJECT_NAME} "main.cpp" "png_toolkit.cpp" "png_toolkit.h"
+    "base_filter.cpp" "base_filter.h" "red_filter.h"
     "stb_image.h" "stb_image_write.h")

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "png_toolkit.h"
+#include "red_filter.h"
 
 int main( int argc, char *argv[] )
 {
@@ -12,8 +13,12 @@ int main( int argc, char *argv[] )
 
         png_toolkit testTool;
         testTool.load(argv[2]);
-        if (png_toolkit::filters.find(argv[1]) != png_toolkit::filters.end())
-            testTool.applyFilter(png_toolkit::filters[argv[1]]);
+
+        filter::red r("fillHalfRed");
+
+        auto f = filter::filters.find(argv[1]);
+        if (f != filter::filters.end())
+            testTool.applyFilter(*(f->second));
         else
             throw "Bad filter";
 

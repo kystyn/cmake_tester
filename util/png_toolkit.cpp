@@ -4,11 +4,6 @@
 #include "stb_image_write.h"
 #include "png_toolkit.h"
 
-std::map<std::string, png_toolkit::Filter> png_toolkit::filters =
-{
-  {"fillHalfRed", Filter::FILL_HALF_RED}
-};
-
 png_toolkit::png_toolkit()
 {
 }
@@ -78,25 +73,8 @@ image_data png_toolkit::getPixelData( void ) const
     return imgData;
 }
 
-void png_toolkit::applyFilter( Filter f )
+void png_toolkit::applyFilter( filter::base &f )
 {
-    switch (f) {
-    case Filter::FILL_HALF_RED:
-        fillHalfRed();
-        break;
-    }
+    f(imgData);
 }
 
-void png_toolkit::fillHalfRed()
-{
-    // alias
-    auto cpp = imgData.compPerPixel;
-    if (imgData.compPerPixel == 4 || imgData.compPerPixel == 3)
-        for (int y = imgData.h / 2; y < imgData.h; y++)
-            for (int x = 0; x < imgData.w * cpp; x += cpp)
-            {
-                imgData.pixels[y * imgData.w * cpp + x + 0] = 255;
-                imgData.pixels[y * imgData.w * cpp + x + 1] = 0;
-                imgData.pixels[y * imgData.w * cpp   + x + 2] = 0;
-            }
-}
