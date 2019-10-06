@@ -58,8 +58,8 @@ float png_toolkit::mseDeviation( const png_toolkit &tool,
 
     auto cpp = imgData.compPerPixel;
 
-    int y = ar.top == 0 ? 0 : imgData.w / ar.top;
-    int x = ar.left == 0 ? 0 : imgData.h / ar.left;
+    int y = ar.top == 0 ? 0 : imgData.h / ar.top;
+    int x = ar.left == 0 ? 0 : imgData.w / ar.left;
     int norm;
     for (; y < imgData.h / ar.bottom; y++)
         for (; x < (imgData.w / ar.right) * cpp; x += cpp)
