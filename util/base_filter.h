@@ -9,9 +9,19 @@ namespace filter {
 class base
 {
 public:
+    /* ATTENTION
+     * these vars are DIVISORS excepted 0
+     * so if u see top = 5 it means that top is 1 / 5 of width
+     * BUT
+     * if u see 0 it means 0
+     */
+    struct area {
+        int top, left, bottom, right;
+    };
+
     base( std::string const &name );
 
-    virtual void operator()( image_data &imgData ) = 0;
+    virtual void operator()( image_data &imgData, area const &ar ) = 0;
     static std::map<std::string, filter::base *> filters;
 };
 }

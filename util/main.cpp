@@ -5,20 +5,28 @@
 int main( int argc, char *argv[] )
 {
     // toolkit filter_name base_pic_name sudent_tool student_pic_name limitPix limitMSE
+    // top left bottom riht
     // toolkit near test images!
     try
     {
-        if (argc != 7)
+        if (argc != 11)
             throw "Not enough arguments";
 
         png_toolkit testTool;
         testTool.load(argv[2]);
 
-        filter::red r("fillHalfRed");
+        // fill all filters
+        filter::red r("Red");
 
         auto f = filter::base::filters.find(argv[1]);
+        filter::base::area ar;
+        ar.top = std::stoi(argv[7]);
+        ar.left = std::stoi(argv[8]);
+        ar.bottom = std::stoi(argv[9]);
+        ar.right = std::stoi(argv[10]);
+
         if (f != filter::base::filters.end())
-            testTool.applyFilter(*(f->second));
+            testTool.applyFilter(*(f->second), ar);
         else
             throw "Bad filter";
 
@@ -28,8 +36,8 @@ int main( int argc, char *argv[] )
 
         png_toolkit::Error err;
         int diffPix;
-        auto mse = testTool.mseDeviation(studTool, err, diffPix);
-        if (err == png_toolkit::Error::Ok) // TODO num of diff pixels limits
+        auto mse = testTool.mseDeviation(studTool, err, diffPix, ar);
+        if (err == png_toolkit::Error::Ok)
         {
             if (diffPix < std::stoi(argv[5]))
                 std::cout << "OK ";
@@ -46,7 +54,7 @@ int main( int argc, char *argv[] )
     }
     catch (const char *str)
     {
-        std::cout << "Error: " << str << std::endl;
+        std::cout << "BAD: Error: " << str << std::endl;
         return 1;
     }
 

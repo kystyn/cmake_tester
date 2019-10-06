@@ -28,7 +28,7 @@ bool png_toolkit::save( const std::string &pictureName )
 }
 
 float png_toolkit::mseDeviation( const png_toolkit &tool,
-                              Error &err, int &diffPix ) const
+                              Error &err, int &diffPix, filter::base::area const &ar ) const
 {
     float res = 0;
     diffPix = 0;
@@ -56,12 +56,18 @@ float png_toolkit::mseDeviation( const png_toolkit &tool,
         return -1;
     }
 
-    for (int i = 0;
-         i < imgData.w * imgData.h * imgData.compPerPixel;
-         i += imgData.compPerPixel)
+    auto cpp = imgData.compPerPixel;
+
+    int y = ar.top == 0 ? 0 : imgData.w / ar.top;
+    int x = ar.left == 0 ? 0 : imgData.h / ar.left;
+    int norm;
+    for (; y < imgData.h / ar.bottom; y++)
+        for (; x < (imgData.w / ar.right) * cpp; x += cpp)
     {
-        diffPix += euclNorm2(sub(imgData.pixels + i, tool.imgData.pixels + i)) != 0;
-        res += euclNorm2(sub(imgData.pixels + i, tool.imgData.pixels + i)) / float(imgData.w * imgData.h);
+        norm = euclNorm2(sub(     imgData.pixels + y * imgData.w * cpp + x,
+                             tool.imgData.pixels + y * imgData.w * cpp + x));
+        diffPix += norm != 0;
+        res += norm / float(imgData.w * imgData.h);
     }
 
     err = Error::Ok;
@@ -73,8 +79,8 @@ image_data png_toolkit::getPixelData( void ) const
     return imgData;
 }
 
-void png_toolkit::applyFilter( filter::base &f )
+void png_toolkit::applyFilter( filter::base &f, filter::base::area const &ar )
 {
-    f(imgData);
+    f(imgData, ar);
 }
 

@@ -10,18 +10,21 @@ class red : public base
 {
     using base::base;
 
-    void operator()( image_data &imgData ) override
+    void operator()( image_data &imgData, area const &ar ) override
     {
         // alias
         auto cpp = imgData.compPerPixel;
-        if (imgData.compPerPixel == 4 || imgData.compPerPixel == 3)
-            for (int y = imgData.h / 2; y < imgData.h; y++)
-                for (int x = 0; x < imgData.w * cpp; x += cpp)
+        if (imgData.compPerPixel == 4 || imgData.compPerPixel == 3) {
+            int y = ar.top == 0 ? ar.top : imgData.h / ar.top;
+            int x = ar.left == 0 ? ar.left : imgData.w / ar.left;
+            for (; y < imgData.h / ar.bottom; y++)
+                for (; x < (imgData.w / ar.right) * cpp; x += cpp)
                 {
                     imgData.pixels[y * imgData.w * cpp + x + 0] = 255;
                     imgData.pixels[y * imgData.w * cpp + x + 1] = 0;
-                    imgData.pixels[y * imgData.w * cpp   + x + 2] = 0;
+                    imgData.pixels[y * imgData.w * cpp  + x + 2] = 0;
                 }
+        }
     }
 };
 }
