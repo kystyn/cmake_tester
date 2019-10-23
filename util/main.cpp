@@ -54,7 +54,7 @@ int main( int argc, char *argv[] )
                 else
                     throw "Bad filter";
             }
-            testTool.save(argv[2]);
+            testTool.save(argv[3]);
             std::string
                     config = std::filesystem::absolute(argv[1]),
                     base = std::filesystem::absolute(argv[2]),
