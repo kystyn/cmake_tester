@@ -31,7 +31,7 @@ public:
             int i = 0;
             for (int y = yStart; y <= yEnd; y++)
                 for (int x = xStart; x <= xEnd; x++)
-                    indices[i++] = (y * imgData.w + x) * cpp  + channel;
+                    indices[i++] = (y * imgData.w + x) * cpp + channel;
 
             std::sort(indices.begin(),
                       indices.begin() + (yEnd - yStart + 1) * (xEnd - xStart + 1),
@@ -53,8 +53,8 @@ public:
                 throw "No memory";
 
             for (int i = 0; y < imgData.h / ar.bottom; y++, i++)
-                memcpy(saved + i * (imgData.w / ar.left - x),
-                       imgData.pixels + (y * imgData.w + x), imgData.w / ar.left - x);
+                memcpy(saved + i * (imgData.w / ar.left - x) * cpp,
+                       imgData.pixels + (y * imgData.w + x), (imgData.w / ar.left - x) * cpp);
 
 
             for (; y < imgData.h / ar.bottom; y++) {
