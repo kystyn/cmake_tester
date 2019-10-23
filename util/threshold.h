@@ -52,9 +52,12 @@ public:
             if (saved == nullptr)
                 throw "No memory";
 
-            for (int i = 0; y < imgData.h / ar.bottom; y++, i++)
+            int i = 0;
+            for (i = 0; y < imgData.h / ar.bottom; y++, i++)
                 memcpy(saved + i * (imgData.w / ar.left - x) * cpp,
-                       imgData.pixels + (y * imgData.w + x), (imgData.w / ar.left - x) * cpp);
+                       imgData.pixels + (y * imgData.w + x) * cpp, (imgData.w / ar.left - x) * cpp);
+
+            y -= i;
 
 
             for (; y < imgData.h / ar.bottom; y++) {
