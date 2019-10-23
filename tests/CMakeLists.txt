@@ -27,7 +27,7 @@ add_test(Hard_Threshold2 ${PROJECT_NAME} Threshold ../ex1.png ${STUDADDR} res.pn
 set_tests_properties(Trivial_Red1
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
-set_tests_properties(Trivial_Red2
+set_tests_properties(Normal_Red2
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
 set_tests_properties(Trivial_Red1 PROPERTIES
