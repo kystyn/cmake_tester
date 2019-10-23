@@ -1,6 +1,7 @@
 #ifndef TRESHOLD_H
 #define TRESHOLD_H
 
+#include <cstring>
 #include <algorithm>
 #include <vector>
 #include "base_filter.h"
@@ -19,7 +20,7 @@ public:
 
         // pixel - center pixel
         auto applyMedian =
-                [&imgData, cpp, &indices, matrixSize]( int pixelX, int pixelY, int channel ) -> void
+                [&imgData, cpp, &indices, matrixSize]( int pixelX, int pixelY, int channel, stbi_uc *saved ) -> void
         {
             int
                 xStart = std::max(0, pixelX - matrixSize / 2),
@@ -34,9 +35,9 @@ public:
 
             std::sort(indices.begin(),
                       indices.begin() + (yEnd - yStart + 1) * (xEnd - xStart + 1),
-                        [&imgData]( int idx1, int idx2 ) -> bool
+                        [saved]( int idx1, int idx2 ) -> bool
                         {
-                            return imgData.pixels[idx1] < imgData.pixels[idx2];
+                            return saved[idx1] < saved[idx2];
                         });
 
             for (int i = 0; i < (yEnd - yStart + 1) * (xEnd - xStart + 1) / 2; i++)
@@ -45,11 +46,22 @@ public:
 
         if (cpp == 4 || cpp == 3) {
             int y = ar.top == 0 ? 0 : imgData.h / ar.top;
+            int x = ar.left == 0 ? 0 : imgData.w / ar.left;
+            stbi_uc *saved = new stbi_uc[(imgData.h / ar.bottom - y) * (imgData.w / ar.right - x) * cpp];
+
+            if (saved == nullptr)
+                throw "No memory";
+
+            for (int i = 0; y < imgData.h / ar.bottom; y++, i++)
+                memcpy(saved + i * (imgData.w / ar.left - x),
+                       imgData.pixels + (y * imgData.w + x), imgData.w / ar.left - x);
+
+
             for (; y < imgData.h / ar.bottom; y++) {
-                int x = ar.left == 0 ? 0 : imgData.w / ar.left;
+                x = ar.left == 0 ? 0 : imgData.w / ar.left;
                 for (; x < imgData.w / ar.right; x++)
                     for (int c = 0; c < 3; c++)
-                        applyMedian(x, y, c);
+                        applyMedian(x, y, c, saved);
             }
         }
     }
