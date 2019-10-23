@@ -1,16 +1,27 @@
 #include <iostream>
+#include <fstream>
+
 #include "png_toolkit.h"
 #include "red_filter.h"
 #include "threshold.h"
 
+std::istream & operator>>( std::istream &is, filter::base::area &ar )
+{
+    is >> ar.top >> ar.left >> ar.bottom >> ar.right;
+    return is;
+}
+
 int main( int argc, char *argv[] )
 {
-    // toolkit filter_name base_pic_name sudent_tool student_pic_name limitPix limitMSE
-    // top left bottom riht
+    // toolkit filter_name ref_pic_name student_pic_name limitPix limitMSE
+    // top left bottom right
+    // OR
+    // toolkit config base_pic_name ref_pic_name stud_tool stud_pic_name #it means - generate reference my and student image
+    // config format: <filter name> top left bottom right
     // toolkit near test images!
     try
     {
-        if (argc != 11)
+        if (argc != 10 && argc != 6)
             throw "Not enough arguments";
 
         png_toolkit testTool;
@@ -20,33 +31,51 @@ int main( int argc, char *argv[] )
         filter::red r("Red");
         filter::threshold t("Threshold");
 
-        auto f = filter::base::filters.find(argv[1]);
-        filter::base::area ar;
-        ar.top = std::stoi(argv[7]);
-        ar.left = std::stoi(argv[8]);
-        ar.bottom = std::stoi(argv[9]);
-        ar.right = std::stoi(argv[10]);
+        if (argc == 6)
+        {
+            std::ifstream ifs(argv[1]);
+            if (!ifs)
+                throw "Bad file name";
 
-        if (f != filter::base::filters.end())
-            testTool.applyFilter(*(f->second), ar);
-        else
-            throw "Bad filter";
+            testTool.load(argv[2]);
+            while (ifs)
+            {
+                std::string filterName;
+                filter::base::area ar;
+                ifs >> filterName >> ar;
 
+                auto f = filter::base::filters.find(filterName);
+                if (f != filter::base::filters.end())
+                    testTool.applyFilter(*(f->second), ar);
+                else
+                    throw "Bad filter";
+            }
+            testTool.save(argv[2]);
+            system(("./" + std::string(argv[4]) + ' ' +  argv[1] + ' ' + argv[2] + ' ' + argv[5]).c_str());
+            return 0;
+        }
+
+        testTool.load(argv[2]);
         png_toolkit studTool;
-        system(("./" + std::string(argv[3]) + ' ' +  argv[1] + ' ' + argv[2] + ' ' + argv[4]).c_str());
-        studTool.load(argv[4]);
+        studTool.load(argv[3]);
+
+        filter::base::area ar;
+        ar.top = std::stoi(argv[6]);
+        ar.left = std::stoi(argv[7]);
+        ar.bottom = std::stoi(argv[8]);
+        ar.right = std::stoi(argv[9]);
 
         png_toolkit::Error err;
         int diffPix;
         auto mse = testTool.mseDeviation(studTool, err, diffPix, ar);
         if (err == png_toolkit::Error::Ok)
         {
-            if (diffPix < std::stof(argv[5]))
+            if (diffPix < std::stoi(argv[4]))
                 std::cout << "OK ";
             else
                 std::cout << "BAD: Too many bad pixels: " << diffPix << " ";
 
-            if (mse < std::stof(argv[6]))
+            if (mse < std::stof(argv[5]))
                 std::cout << "OK";
             else
                 std::cout << "BAD: Too big MSE: " << mse;

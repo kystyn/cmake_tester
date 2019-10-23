@@ -16,12 +16,19 @@ set(STUDADDR "../../../student/build/${STUDPROJNAME}")
 
 enable_testing()
 SET (TestEnvironment_TIMEOUT 100)
-add_test(Trivial_Red1 ${PROJECT_NAME} Red ../ex1.png ${STUDADDR} res.png 10 30 2 0 1 1)
-add_test(Normal_Red2 ${PROJECT_NAME} Red ../ex1.png ${STUDADDR} res.png 1 3 2 0 1 1)
-add_test(Normal_Threshold1 ${PROJECT_NAME} Threshold ../ex1.png ${STUDADDR} res.png 6000 0.15 0 0 2 2)
-add_test(Hard_Threshold2 ${PROJECT_NAME} Threshold ../ex1.png ${STUDADDR} res.png 500 0.01 0 0 2 2)
+add_test(Trivial_Run ${PROJECT_NAME} config.txt ../ex1.png ref.png ${STUDADDR} stud.png)
+add_test(Trivial_Red1 ${PROJECT_NAME} Red ref.png stud.png 10 30 2 0 1 1)
+add_test(Normal_Red2  ${PROJECT_NAME} Red ref.png stud.png 1 3 2 0 1 1)
+add_test(Normal_Threshold1 ${PROJECT_NAME} Threshold ref.png stud.png 6000 0.15 0 0 2 2)
+add_test(Hard_Threshold2   ${PROJECT_NAME} Threshold ref.png stud.png  500 0.01 0 0 2 2)
 
 # Установить поведение тестов:
+
+#Run
+set_tests_properties(Trivial_Run
+PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
+set_tests_properties(Trivial_Run PROPERTIES
+PASS_REGULAR_EXPRESSION "OK")
 
 #Red
 set_tests_properties(Trivial_Red1
