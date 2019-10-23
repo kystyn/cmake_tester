@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 
 #include "png_toolkit.h"
 #include "red_filter.h"
@@ -54,7 +55,8 @@ int main( int argc, char *argv[] )
                     throw "Bad filter";
             }
             testTool.save(argv[2]);
-            system(("./" + std::string(argv[4]) + ' ' +  argv[1] + ' ' + argv[2] + ' ' + argv[5]).c_str());
+            std::string p = std::filesystem::absolute(argv[1]);
+            system(("./" + std::string(argv[4]) + ' ' + p + ' ' + argv[2] + ' ' + argv[5]).c_str());
             return 0;
         }
 
