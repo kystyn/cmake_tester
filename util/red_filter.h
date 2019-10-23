@@ -16,14 +16,16 @@ class red : public base
         auto cpp = imgData.compPerPixel;
         if (cpp == 4 || cpp == 3) {
             int y = ar.top == 0 ? 0 : imgData.h / ar.top;
-            int x = ar.left == 0 ? 0 : imgData.w / ar.left;
-            for (; y < imgData.h / ar.bottom; y++)
-                for (; x < (imgData.w / ar.right) * cpp; x += cpp)
+            for (; y < imgData.h / ar.bottom; y++) {
+                int x = ar.left == 0 ? 0 : imgData.w / ar.left;
+                for (; x < imgData.w / ar.right; x++)
                 {
-                    imgData.pixels[y * imgData.w * cpp + x + 0] = 255;
-                    imgData.pixels[y * imgData.w * cpp + x + 1] = 0;
-                    imgData.pixels[y * imgData.w * cpp + x + 2] = 0;
+                    imgData.pixels[(y * imgData.w + x) * cpp + 0] = 255;
+                    imgData.pixels[(y * imgData.w + x) * cpp + 1] = 0;
+                    imgData.pixels[(y * imgData.w + x) * cpp + 2] = 0;
+                    imgData.pixels[(y * imgData.w + x) * cpp + 3] = 255;
                 }
+            }
         }
     }
 };

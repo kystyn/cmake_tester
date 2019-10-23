@@ -1,6 +1,7 @@
 #include <iostream>
 #include "png_toolkit.h"
 #include "red_filter.h"
+#include "threshold.h"
 
 int main( int argc, char *argv[] )
 {
@@ -17,6 +18,7 @@ int main( int argc, char *argv[] )
 
         // fill all filters
         filter::red r("Red");
+        filter::threshold t("Threshold");
 
         auto f = filter::base::filters.find(argv[1]);
         filter::base::area ar;
@@ -31,7 +33,7 @@ int main( int argc, char *argv[] )
             throw "Bad filter";
 
         png_toolkit studTool;
-        system(("./" + std::string(argv[3]) + ' ' +  argv[2] + ' ' + argv[4]).c_str());
+        system(("./" + std::string(argv[3]) + ' ' +  argv[1] + ' ' + argv[2] + ' ' + argv[4]).c_str());
         studTool.load(argv[4]);
 
         png_toolkit::Error err;
