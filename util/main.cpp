@@ -41,12 +41,12 @@ int main( int argc, char *argv[] )
         auto mse = testTool.mseDeviation(studTool, err, diffPix, ar);
         if (err == png_toolkit::Error::Ok)
         {
-            if (diffPix < std::stoi(argv[5]))
+            if (diffPix < std::stof(argv[5]))
                 std::cout << "OK ";
             else
                 std::cout << "BAD: Too many bad pixels: " << diffPix << " ";
 
-            if (mse < std::stoi(argv[6]))
+            if (mse < std::stof(argv[6]))
                 std::cout << "OK";
             else
                 std::cout << "BAD: Too big MSE: " << mse;

@@ -71,7 +71,7 @@ float png_toolkit::mseDeviation( const png_toolkit &tool,
     }
 
     err = Error::Ok;
-    return int(sqrt(res) / sqrt(imgData.w * imgData.h));
+    return float(sqrt(res) / sqrt(imgData.w * imgData.h));
 }
 
 image_data png_toolkit::getPixelData( void ) const
