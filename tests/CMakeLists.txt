@@ -8,6 +8,7 @@ cmake_minimum_required (VERSION 3.8)
 
 # here will be set(STUDPROJNAME ...)
 
+set(CMAKE_CXX_STANDARD 17)
 set(STUDADDR "../../../student/build/${STUDPROJNAME}")
 
 # TODO: Add tests and install targets if needed.
