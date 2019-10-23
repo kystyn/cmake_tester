@@ -66,6 +66,8 @@ public:
                     for (int c = 0; c < 3; c++)
                         applyMedian(x, y, c, saved);
             }
+
+            delete []saved;
         }
     }
 };
