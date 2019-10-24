@@ -5,6 +5,7 @@
 #include "png_toolkit.h"
 #include "red_filter.h"
 #include "threshold.h"
+#include "convolution.h"
 
 std::istream & operator>>( std::istream &is, filter::base::area &ar )
 {
@@ -31,6 +32,19 @@ int main( int argc, char *argv[] )
         // fill all filters
         filter::red r("Red");
         filter::threshold t("Threshold");
+
+        filter::convolution<3> blur("Blur",
+            std::array<std::array<double, 3>, 3>{
+                std::array<double, 3>{1.0, 1.0, 1.0},
+                {1.0, 1.0, 1.0},
+                {1.0, 1.0, 1.0}
+            });
+        filter::convolution<3> border("Border",
+            std::array<std::array<double, 3>, 3>{
+                std::array<double, 3>{-1.0, -1.0, -1.0},
+                {-1.0, 9.0, -1.0},
+                {-1.0, -1.0, -1.0}
+            });
 
         if (argc == 6)
         {
