@@ -1,4 +1,4 @@
 Red       2 0 1 2
 Threshold 0 0 2 2
-Blur      0 2 2 1
-Border    2 2 1 1
+Border    0 2 2 1
+Blur      2 2 1 1
