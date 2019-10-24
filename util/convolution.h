@@ -34,7 +34,7 @@ public:
                     norm += x;
 
             auto convolute =
-                [&, &imgData, cpp, matrixSize, saved, norm]( int pixelX, int pixelY, stbi_uc *resC ) -> void
+                [&, imgData, cpp, matrixSize, saved, norm]( int pixelX, int pixelY, stbi_uc *resC ) -> void
             {
                 int
                     xStart = std::max(0, pixelX - matrixSize / 2),
@@ -43,8 +43,8 @@ public:
                     yEnd = std::min(imgData.h - 1, pixelY + matrixSize / 2);
 
                 double newC[3] = {0};
-                for (int y = -N / 2; y < N / 2; y++)
-                    for (int x = -N / 2; x < N / 2; x++)
+                for (int y = -N / 2; y <= N / 2; y++)
+                    for (int x = -N / 2; x <= N / 2; x++)
                         if (pixelY + y >= yStart && pixelY + y <= yEnd &&
                             pixelX + x >= xStart && pixelX + x <= xEnd)
                             for (int c = 0; c < 3; c++)
