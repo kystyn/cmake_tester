@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <functional>
 #include "image_data.h"
 
 namespace filter {
@@ -19,9 +20,18 @@ public:
         int top, left, bottom, right;
     };
 
-    base( std::string const &name );
+    base( std::string const &name, std::function<void(image_data const &)> preprocess = []( image_data const & ){} );
 
     virtual void operator()( image_data &imgData, area const &ar ) = 0;
+
+    static std::map<std::string, filter::base *> const & getFilters( void )
+    {
+        return filters;
+    }
+
+protected:
+    std::function<void( image_data const & )> preprocess;
+private:
     static std::map<std::string, filter::base *> filters;
 };
 }

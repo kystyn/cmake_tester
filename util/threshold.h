@@ -1,13 +1,13 @@
 #ifndef TRESHOLD_H
 #define TRESHOLD_H
 
-#include <cstring>
 #include <algorithm>
 #include <vector>
+#include <cstring>
 #include "base_filter.h"
 
 namespace filter {
-class threshold : public filter::base
+class threshold : public base
 {
 public:
     using base::base;
@@ -26,6 +26,7 @@ public:
                 throw "No memory";
 
             memcpy(saved, imgData.pixels, imgData.w * imgData.h * cpp);
+            preprocess({saved, imgData.w, imgData.h, imgData.compPerPixel});
 
             // pixel - center pixel
             auto applyMedian =

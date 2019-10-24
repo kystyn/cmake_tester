@@ -10,8 +10,9 @@ namespace filter {
 template<int N>
 class convolution : public base {
 public:
-    convolution( std::string const &filterName, std::array<std::array<double, N>, N> const &ker ) :
-        base(filterName), ker(ker) {}
+    convolution( std::string const &filterName, std::array<std::array<double, N>, N> const &ker,
+                 std::function<void( image_data const &)> preprocess = []( image_data const & ){} ) :
+        base(filterName, preprocess), ker(ker) {}
 
     void operator()( image_data &imgData, area const &ar ) override
     {
@@ -26,6 +27,7 @@ public:
                 throw "No memory";
 
             memcpy(saved, imgData.pixels, imgData.w * imgData.h * cpp);
+            preprocess({saved, imgData.w, imgData.h, imgData.compPerPixel});
 
             double norm = 0;
 
@@ -57,7 +59,6 @@ public:
                 resC[1] = stbi_uc(newC[1]);
                 resC[2] = stbi_uc(newC[2]);
             };
-
             for (; y < imgData.h / ar.bottom; y++)
             {
                 x = ar.left == 0 ? 0 : imgData.w / ar.left;
