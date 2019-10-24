@@ -19,8 +19,8 @@ public:
         std::array<int, matrixSize * matrixSize> indices;
 
         if (cpp == 4 || cpp == 3) {
-            int y = ar.top == 0 ? 0 : imgData.h / ar.top;
-            int x = ar.left == 0 ? 0 : imgData.w / ar.left;
+            int y = ar.top == 0 ? 0 : imgData.h / ar.top, y0 = y;
+            int x = ar.left == 0 ? 0 : imgData.w / ar.left, x0 = x;
             stbi_uc *saved = new stbi_uc[imgData.h * imgData.w * cpp];
             if (saved == nullptr)
                 throw "No memory";
@@ -30,13 +30,13 @@ public:
 
             // pixel - center pixel
             auto applyMedian =
-                    [&imgData, cpp, &indices, matrixSize, saved]( int pixelX, int pixelY, int channel ) -> void
+                    [&imgData, &ar, cpp, &indices, saved, x0, y0]( int pixelX, int pixelY, int channel ) -> void
             {
                 int
-                    xStart = std::max(0, pixelX - matrixSize / 2),
-                    yStart = std::max(0, pixelY - matrixSize / 2),
-                    xEnd = std::min(imgData.w - 1, pixelX + matrixSize / 2),
-                    yEnd = std::min(imgData.h - 1, pixelY + matrixSize / 2);
+                    xStart = std::max(x0, pixelX - matrixSize / 2),
+                    yStart = std::max(y0, pixelY - matrixSize / 2),
+                    xEnd = std::min(imgData.w / ar.left - 1, pixelX + matrixSize / 2),
+                    yEnd = std::min(imgData.h / ar.bottom - 1, pixelY + matrixSize / 2);
 
                 int i = 0;
                 for (int y = yStart; y <= yEnd; y++)
