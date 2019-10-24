@@ -17,10 +17,13 @@ void brightness( image_data const &imgData )
     for (int i = 0;
          i < imgData.w * imgData.h * imgData.compPerPixel;
          i += imgData.compPerPixel)
+    {
+        auto newc = stbi_uc(imgData.pixels[i + 0] * 0.3 +
+                imgData.pixels[i + 1] * 0.6 +
+                imgData.pixels[i + 2] * 0.1);
         for (int c = 0; c < 3; c++)
-            imgData.pixels[i + c] = stbi_uc(imgData.pixels[i + 0] * 0.3 +
-                                            imgData.pixels[i + 1] * 0.6 +
-                                            imgData.pixels[i + 2] * 0.1);
+            imgData.pixels[i + c] = newc;
+    }
 }
 
 int main( int argc, char *argv[] )
@@ -47,7 +50,7 @@ int main( int argc, char *argv[] )
                 std::array<double, 3>{1.0, 1.0, 1.0},
                 {1.0, 1.0, 1.0},
                 {1.0, 1.0, 1.0}
-            }, brightness);
+            });
         filter::convolution<3> border("Border",
             std::array<std::array<double, 3>, 3>{
                 std::array<double, 3>{-1.0, -1.0, -1.0},
