@@ -22,10 +22,10 @@ add_test(Trivial_Red1 ${PROJECT_NAME} Red ref.png stud.png 10 30 2 0 1 1)
 add_test(Normal_Red2  ${PROJECT_NAME} Red ref.png stud.png 1 3 2 0 1 1)
 add_test(Normal_Threshold1 ${PROJECT_NAME} Threshold ref.png stud.png 6000 0.15 0 0 2 2)
 add_test(Hard_Threshold2   ${PROJECT_NAME} Threshold ref.png stud.png  500 0.01 0 0 2 2)
-add_test(Normal_Blur       ${PROJECT_NAME} Blur      ref.png stud.png 6000 0.15 0 2 4 1)
-add_test(Hard_Blur         ${PROJECT_NAME} Blur      ref.png stud.png  500 0.01 0 2 4 1)
-add_test(Normal_Border     ${PROJECT_NAME} Border    ref.png stud.png 6000 0.15 4 2 4 1)
-add_test(Hard_Border       ${PROJECT_NAME} Border    ref.png stud.png  500 0.01 4 2 4 1)
+add_test(Normal_Blur1      ${PROJECT_NAME} Blur      ref.png stud.png 6000 0.15 0 2 4 1)
+add_test(Hard_Blur2        ${PROJECT_NAME} Blur      ref.png stud.png  500 0.01 0 2 4 1)
+add_test(Normal_Border1    ${PROJECT_NAME} Border    ref.png stud.png 6000 0.15 4 2 4 1)
+add_test(Hard_Border2      ${PROJECT_NAME} Border    ref.png stud.png  500 0.01 4 2 4 1)
 
 # Установить поведение тестов:
 
