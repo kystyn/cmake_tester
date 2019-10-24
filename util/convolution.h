@@ -41,7 +41,7 @@ public:
                 int
                     xStart = std::max(x0, pixelX - matrixSize / 2),
                     yStart = std::max(y0, pixelY - matrixSize / 2),
-                    xEnd = std::min(imgData.w / ar.left - 1, pixelX + matrixSize / 2),
+                    xEnd = std::min(imgData.w / ar.right - 1, pixelX + matrixSize / 2),
                     yEnd = std::min(imgData.h / ar.bottom - 1, pixelY + matrixSize / 2);
 
                 double newC[3] = {0};
