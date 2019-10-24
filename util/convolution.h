@@ -17,7 +17,7 @@ public:
     {
         auto cpp = imgData.compPerPixel;
         if (cpp == 4 || cpp == 3) {
-            const int matrixSize = 3;
+            const int matrixSize = N;
             int x = ar.left == 0 ? 0 : imgData.w / ar.left;
             int y = ar.top == 0 ? 0 : imgData.h / ar.top;
 
@@ -34,7 +34,7 @@ public:
                     norm += x;
 
             auto convolute =
-                [&imgData, cpp, matrixSize, saved, norm]( int pixelX, int pixelY, stbi_uc *resC ) -> void
+                [&, &imgData, cpp, matrixSize, saved, norm]( int pixelX, int pixelY, stbi_uc *resC ) -> void
             {
                 int
                     xStart = std::max(0, pixelX - matrixSize / 2),
@@ -48,7 +48,9 @@ public:
                         if (pixelY + y >= yStart && pixelY + y <= yEnd &&
                             pixelX + x >= xStart && pixelX + x <= xEnd)
                             for (int c = 0; c < 3; c++)
-                                newC[c] += saved[((pixelY + y) * imgData.w + pixelX + x) * cpp + c] / norm;
+                                newC[c] +=
+                                        saved[((pixelY + y) * imgData.w + pixelX + x) * cpp + c] *
+                                        ker[y + N / 2][x + N / 2] / norm;
 
 
                 resC[0] = stbi_uc(newC[0]);
