@@ -44,20 +44,19 @@ public:
                     xEnd = std::min(imgData.w / ar.right - 1, pixelX + matrixSize / 2),
                     yEnd = std::min(imgData.h / ar.bottom - 1, pixelY + matrixSize / 2);
 
-                double newC[3] = {0};
+                double newC = 0;
                 for (int y = -N / 2; y <= N / 2; y++)
                     for (int x = -N / 2; x <= N / 2; x++)
                         if (pixelY + y >= yStart && pixelY + y <= yEnd &&
                             pixelX + x >= xStart && pixelX + x <= xEnd)
-                            for (int c = 0; c < 3; c++)
-                                newC[c] +=
-                                        saved[((pixelY + y) * imgData.w + pixelX + x) * cpp + c] *
+                                newC +=
+                                        saved[((pixelY + y) * imgData.w + pixelX + x) * cpp] *
                                         ker[y + N / 2][x + N / 2] / norm;
 
 
-                resC[0] = stbi_uc(newC[0]);
-                resC[1] = stbi_uc(newC[1]);
-                resC[2] = stbi_uc(newC[2]);
+                resC[0] = stbi_uc(newC);
+                resC[1] = stbi_uc(newC);
+                resC[2] = stbi_uc(newC);
             };
             for (; y < imgData.h / ar.bottom; y++)
             {
