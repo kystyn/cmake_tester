@@ -24,8 +24,8 @@ add_test(Normal_Threshold1 ${PROJECT_NAME} Threshold ref.png stud.png 6000 0.15 
 add_test(Hard_Threshold2   ${PROJECT_NAME} Threshold ref.png stud.png  500 0.01 0 0 2 2)
 add_test(Normal_Blur1      ${PROJECT_NAME} Blur      ref.png stud.png 6000 0.15 0 2 4 1)
 add_test(Hard_Blur2        ${PROJECT_NAME} Blur      ref.png stud.png  500 0.01 0 2 4 1)
-add_test(Normal_Border1    ${PROJECT_NAME} Border    ref.png stud.png 6000 0.15 4 2 4 1)
-add_test(Hard_Border2      ${PROJECT_NAME} Border    ref.png stud.png  500 0.01 4 2 4 1)
+add_test(Normal_Edge1      ${PROJECT_NAME} Ede      ref.png stud.png 6000 0.15 4 2 4 1)
+add_test(Hard_Edge2        ${PROJECT_NAME} Edge     ref.png stud.png  500 0.01 4 2 4 1)
 
 # Установить поведение тестов:
 
@@ -81,10 +81,10 @@ PASS_REGULAR_EXPRESSION "OK OK"
 FAIL_REGULAR_EXPRESSION "BAD:Too many bad pixels: [d]{1,}")
 
 #Border
-set_tests_properties(Normal_Border1
+set_tests_properties(Normal_Edge1
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
-set_tests_properties(Hard_Border2
+set_tests_properties(Hard_Edge2
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
 set_tests_properties(Normal_Border1 PROPERTIES
