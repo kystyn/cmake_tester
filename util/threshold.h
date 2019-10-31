@@ -15,49 +15,48 @@ public:
     {
         // alias
         auto cpp = imgData.compPerPixel;
-        const int matrixSize = 3;
-        std::array<int, matrixSize * matrixSize> indices;
 
         if (cpp == 4 || cpp == 3) {
-            int y = ar.top == 0 ? 0 : imgData.h / ar.top, y0 = y;
-            int x = ar.left == 0 ? 0 : imgData.w / ar.left, x0 = x;
+            int y0 = ar.top == 0 ? 0 : imgData.h / ar.top;
+            int x0 = ar.left == 0 ? 0 : imgData.w / ar.left;
             stbi_uc *saved = new stbi_uc[imgData.h * imgData.w * cpp];
             if (saved == nullptr)
                 throw "No memory";
 
             memcpy(saved, imgData.pixels, imgData.w * imgData.h * cpp);
-            preprocess({saved, imgData.w, imgData.h, imgData.compPerPixel});
+            preprocess({saved, imgData.w, imgData.h, cpp});
 
             // pixel - center pixel
             auto applyMedian =
-                    [&imgData, &ar, cpp, &indices, saved, x0, y0]( int pixelX, int pixelY ) -> void
+                    [&imgData, &ar, cpp, saved, x0, y0]( void ) -> void
             {
                 int
-                    xStart = std::max(x0, pixelX - matrixSize / 2),
-                    yStart = std::max(y0, pixelY - matrixSize / 2),
-                    xEnd = std::min(imgData.w / ar.right - 1, pixelX + matrixSize / 2),
-                    yEnd = std::min(imgData.h / ar.bottom - 1, pixelY + matrixSize / 2);
+                    xStart = x0,
+                    yStart = y0,
+                    xEnd = imgData.w / ar.right - 1,
+                    yEnd = imgData.h / ar.bottom - 1;
+                std::vector<int> indices((yEnd - yStart) * (xEnd - xStart));
 
                 int i = 0;
-                for (int y = yStart; y <= yEnd; y++)
-                    for (int x = xStart; x <= xEnd; x++)
+                for (int y = yStart; y < yEnd; y++)
+                    for (int x = xStart; x < xEnd; x++)
                         indices[i++] = (y * imgData.w + x) * cpp;
 
                 std::sort(indices.begin(),
-                          indices.begin() + (yEnd - yStart + 1) * (xEnd - xStart + 1),
+                          indices.end(),
                             [saved]( int idx1, int idx2 ) -> bool
                             {
                                 return saved[idx1] < saved[idx2];
                             });
 
-                for (int i = 0; i < (yEnd - yStart + 1) * (xEnd - xStart + 1) / 2; i++)
+                for (int i = 0; i < indices.size() / 2; i++)
                 {
                     imgData.pixels[indices[i] + 0] = 0;
                     imgData.pixels[indices[i] + 1] = 0;
                     imgData.pixels[indices[i] + 2] = 0;
                 }
-                for (int i = (yEnd - yStart + 1) * (xEnd - xStart + 1) / 2;
-                     i < (yEnd - yStart + 1) * (xEnd - xStart + 1); i++)
+                for (int i = indices.size() / 2;
+                     i < indices.size(); i++)
                 {
                     imgData.pixels[indices[i] + 0] = saved[indices[i] + 0];
                     imgData.pixels[indices[i] + 1] = saved[indices[i] + 1];
@@ -65,11 +64,7 @@ public:
                 }
             };
 
-            for (; y < imgData.h / ar.bottom; y++) {
-                x = ar.left == 0 ? 0 : imgData.w / ar.left;
-                for (; x < imgData.w / ar.right; x++)
-                    applyMedian(x, y);
-            }
+            applyMedian();
 
             delete []saved;
         }

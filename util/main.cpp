@@ -51,7 +51,7 @@ int main( int argc, char *argv[] )
                 {1.0, 1.0, 1.0},
                 {1.0, 1.0, 1.0}
             });
-        filter::convolution<3> border("Border",
+        filter::convolution<3> border("Edge",
             std::array<std::array<double, 3>, 3>{
                 std::array<double, 3>{-1.0, -1.0, -1.0},
                 {-1.0, 9.0, -1.0},
