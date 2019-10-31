@@ -81,16 +81,16 @@ PASS_REGULAR_EXPRESSION "OK OK"
 FAIL_REGULAR_EXPRESSION "BAD:Too many bad pixels: [d]{1,}")
 
 #Border
-set_tests_properties(Normal_Edge1
+set_tests_properties(Normal_Blur1
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
-set_tests_properties(Hard_Edge2
+set_tests_properties(Hard_Blur2
 PROPERTIES TIMEOUT ${TestEnvironment_TIMEOUT})
 
-set_tests_properties(Normal_Border1 PROPERTIES
+set_tests_properties(Normal_Edge1 PROPERTIES
 PASS_REGULAR_EXPRESSION "OK OK"
 FAIL_REGULAR_EXPRESSION "BAD: Too many bad pixels: [d]{1,}")
 
-set_tests_properties(Hard_Border2 PROPERTIES
+set_tests_properties(Hard_Edge2 PROPERTIES
 PASS_REGULAR_EXPRESSION "OK OK"
 FAIL_REGULAR_EXPRESSION "BAD:Too many bad pixels: [d]{1,}")
