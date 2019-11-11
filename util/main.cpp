@@ -28,18 +28,15 @@ void brightness( image_data const &imgData )
 
 int main( int argc, char *argv[] )
 {
-    // toolkit config filter_name ref_pic_name student_pic_name limitPix limitMSE
+    // toolkit config filter_name ref_pic_name student_pic_name limitPix limitMSE #7
     // OR
-    // toolkit config base_pic_name ref_pic_name stud_tool stud_pic_name #it means - generate reference my and student image
+    // toolkit config base_pic_name ref_pic_name stud_tool stud_pic_name #6 #it means - generate reference my and student image
     // config format: <filter name> top left bottom right
     // toolkit near test images!
     try
     {
         if (argc != 7 && argc != 6)
             throw "Not enough arguments";
-
-        png_toolkit testTool;
-        testTool.load(argv[2]);
 
         // fill all filters
         filter::red r("Red");
@@ -60,6 +57,8 @@ int main( int argc, char *argv[] )
         std::ifstream ifs(argv[1]);
         if (!ifs)
             throw "Bad config name";
+
+        png_toolkit testTool;
 
         if (argc == 6)
         {
@@ -89,9 +88,11 @@ int main( int argc, char *argv[] )
             return 0;
         }
 
-        testTool.load(argv[2]);
+
+        // argc == 7
         png_toolkit studTool;
-        studTool.load(argv[3]);
+        testTool.load(argv[3]);
+        studTool.load(argv[4]);
 
         filter::base::area ar;
         std::string filterName;
@@ -111,12 +112,12 @@ int main( int argc, char *argv[] )
         auto mse = testTool.mseDeviation(studTool, err, diffPix, ar);
         if (err == png_toolkit::Error::Ok)
         {
-            if (diffPix < std::stoi(argv[4]))
+            if (diffPix < std::stoi(argv[5]))
                 std::cout << "OK ";
             else
                 std::cout << "BAD: Too many bad pixels: " << diffPix << " ";
 
-            if (mse < std::stof(argv[5]))
+            if (mse < std::stof(argv[6]))
                 std::cout << "OK";
             else
                 std::cout << "BAD: Too big MSE: " << mse;
