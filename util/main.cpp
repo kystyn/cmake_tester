@@ -84,8 +84,8 @@ int main( int argc, char *argv[] )
             std::string
                     config = std::filesystem::absolute(argv[1]),
                     base = std::filesystem::absolute(argv[2]),
-                    ref = std::filesystem::absolute(argv[5]);
-            system(("./" + std::string(argv[4]) + ' ' + config + ' ' + base + ' ' + ref).c_str());
+                    stud = std::filesystem::absolute(argv[5]);
+            system(("./" + std::string(argv[4]) + ' ' + config + ' ' + base + ' ' + stud).c_str());
             std::cout << "OK\n";
             return 0;
         }

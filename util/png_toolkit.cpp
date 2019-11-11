@@ -42,7 +42,7 @@ float png_toolkit::mseDeviation( const png_toolkit &tool,
     auto sub = []( stbi_uc *v1, stbi_uc *v2 ) -> std::array<stbi_uc, 3> {
         std::array<stbi_uc, 3> res;
         for (size_t i = 0; i < 3; i++)
-            res[i] = v1[i] - v2[i];
+            res[i] = std::max(v1[i], v2[i]) - std::min(v1[i], v2[i]);
         return res;
     };
 
