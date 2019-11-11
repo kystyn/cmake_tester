@@ -60,10 +60,10 @@ float png_toolkit::mseDeviation( const png_toolkit &tool,
 
     int norm;
     for (int y = ar.top == 0 ? 0 : imgData.h / ar.top; y < imgData.h / ar.bottom; y++)
-        for (int x = ar.left == 0 ? 0 : imgData.w / ar.left; x < (imgData.w / ar.right) * cpp; x += cpp)
+        for (int x = ar.left == 0 ? 0 : imgData.w / ar.left; x < imgData.w / ar.right; x++)
     {
-        norm = euclNorm2(sub(     imgData.pixels + y * imgData.w * cpp + x,
-                             tool.imgData.pixels + y * imgData.w * cpp + x));
+        norm = euclNorm2(sub(     imgData.pixels + (y * imgData.w + x) * cpp,
+                             tool.imgData.pixels + (y * imgData.w + x) * cpp));
         diffPix += norm != 0;
         res += norm / float(imgData.w * imgData.h);
     }
