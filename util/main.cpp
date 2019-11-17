@@ -83,8 +83,10 @@ int main( int argc, char *argv[] )
                     config = std::filesystem::absolute(argv[1]),
                     base = std::filesystem::absolute(argv[2]),
                     stud = std::filesystem::absolute(argv[5]);
-            system(("./" + std::string(argv[4]) + ' ' + config + ' ' + base + ' ' + stud).c_str());
-            std::cout << "OK\n";
+            if (system(("./" + std::string(argv[4]) + ' ' + config + ' ' + base + ' ' + stud).c_str()) == 0)
+	        std::cout << "OK\n";
+	    else
+		std::cout << "BAD\n";
             return 0;
         }
 
