@@ -43,7 +43,7 @@ public:
                     for (int x = xStart; x <= xEnd; x++)
                         indices[i++] = (y * imgData.w + x) * cpp;
 
-                std::sort(indices.begin(),
+                std::stable_sort(indices.begin(),
                           indices.begin() + (yEnd - yStart + 1) * (xEnd - xStart + 1),
                             [saved]( int idx1, int idx2 ) -> bool
                             {
