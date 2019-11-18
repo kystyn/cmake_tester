@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <functional>
+#include <algorithm>
 #include "image_data.h"
 
 namespace filter {
@@ -27,6 +28,18 @@ public:
     static std::map<std::string, filter::base *> const & getFilters( void )
     {
         return filters;
+    }
+
+    void clamp( int *c )
+    {
+        for (int i = 0; i < 3; i++)
+            c[i] = std::max(0, std::min(255, c[i]));
+    }
+
+    void clamp( stbi_uc *c )
+    {
+        for (int i = 0; i < 3; i++)
+            c[i] = std::max<stbi_uc>(0, std::min<stbi_uc>(255, c[i]));
     }
 
 protected:

@@ -50,26 +50,15 @@ public:
                                 return saved[idx1] < saved[idx2];
                             });
 
-                for (int i = 0; i < (yEnd - yStart + 1) * (xEnd - xStart + 1) / 2; i++)
-                {
-                    imgData.pixels[indices[i] + 0] = 0;
-                    imgData.pixels[indices[i] + 1] = 0;
-                    imgData.pixels[indices[i] + 2] = 0;
-                }
-                for (int i = (yEnd - yStart + 1) * (xEnd - xStart + 1) / 2;
-                     i < (yEnd - yStart + 1) * (xEnd - xStart + 1); i++)
-                {
-                    imgData.pixels[indices[i] + 0] = saved[indices[i] + 0];
-                    imgData.pixels[indices[i] + 1] = saved[indices[i] + 1];
-                    imgData.pixels[indices[i] + 2] = saved[indices[i] + 2];
-                }
+                stbi_uc me = imgData.pixels[indices[(yEnd - yStart + 1) * (xEnd - xStart + 1) / 2]];
+                imgData.pixels[pixelY * imgData.w + pixelX + 0] = me;
+                imgData.pixels[pixelY * imgData.w + pixelX + 1] = me;
+                imgData.pixels[pixelY * imgData.w + pixelX + 2] = me;
             };
 
-            for (; y < imgData.h / ar.bottom; y += matrixSize / 2 * 2) {
-                x = ar.left == 0 ? 0 : imgData.w / ar.left;
-                for (; x < imgData.w / ar.right; x += matrixSize / 2 * 2)
+            for (; y < imgData.h / ar.bottom; y++)
+                for (x = ar.left == 0 ? 0 : imgData.w / ar.left; x < imgData.w / ar.right; x++)
                     applyMedian(x, y);
-            }
 
             delete []saved;
         }

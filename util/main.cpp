@@ -42,16 +42,16 @@ int main( int argc, char *argv[] )
         filter::red r("Red");
         filter::threshold t("Threshold", brightness);
         filter::convolution<3> blur("Blur",
-            std::array<std::array<double, 3>, 3>{
-                std::array<double, 3>{1.0, 1.0, 1.0},
-                {1.0, 1.0, 1.0},
-                {1.0, 1.0, 1.0}
+            std::array<std::array<int, 3>, 3>{
+                std::array<int, 3>{1, 1, 1},
+                {1, 1, 1},
+                {1, 1, 1}
             });
         filter::convolution<3> border("Edge",
-            std::array<std::array<double, 3>, 3>{
-                std::array<double, 3>{-1.0, -1.0, -1.0},
-                {-1.0, 9.0, -1.0},
-                {-1.0, -1.0, -1.0}
+            std::array<std::array<int, 3>, 3>{
+                std::array<int, 3>{-1, -1, -1},
+                {-1, 9, -1},
+                {-1, -1, -1}
             }, brightness);
 
         std::ifstream ifs(argv[1]);

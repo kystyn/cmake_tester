@@ -10,7 +10,7 @@ namespace filter {
 template<int N>
 class convolution : public base {
 public:
-    convolution( std::string const &filterName, std::array<std::array<double, N>, N> const &ker,
+    convolution( std::string const &filterName, std::array<std::array<int, N>, N> const &ker,
                  std::function<void( image_data const &)> preprocess = []( image_data const & ){} ) :
         base(filterName, preprocess), ker(ker) {}
 
@@ -29,7 +29,7 @@ public:
             memcpy(saved, imgData.pixels, imgData.w * imgData.h * cpp);
             preprocess({saved, imgData.w, imgData.h, imgData.compPerPixel});
 
-            double norm = 0;
+            int norm = 0;
 
             for (auto y : ker)
                 for (auto x : y)
@@ -44,7 +44,7 @@ public:
                     xEnd = std::min(imgData.w / ar.right - 1, pixelX + matrixSize / 2),
                     yEnd = std::min(imgData.h / ar.bottom - 1, pixelY + matrixSize / 2);
 
-                double newC[3] = {0};
+                int newC[3] = {0};
                 for (int y = -N / 2; y <= N / 2; y++)
                     for (int x = -N / 2; x <= N / 2; x++)
                         if (pixelY + y >= yStart && pixelY + y <= yEnd &&
@@ -52,8 +52,12 @@ public:
                             for (int c = 0; c < 3; c++)
                                 newC[c] +=
                                         saved[((pixelY + y) * imgData.w + pixelX + x) * cpp + c] *
-                                        ker[y + N / 2][x + N / 2] / norm;
+                                        ker[y + N / 2][x + N / 2];
 
+                for (int c = 0; c < 3; c++)
+                    newC[c] /= norm;
+
+                clamp(newC);
 
                 resC[0] = stbi_uc(newC[0]);
                 resC[1] = stbi_uc(newC[1]);
@@ -69,7 +73,7 @@ public:
     }
 
 private:
-    std::array<std::array<double, N>, N> ker;
+    std::array<std::array<int, N>, N> ker;
 };
 }
 
