@@ -54,8 +54,8 @@ public:
 
                 for (int i = 0; i < 3; i++)
                     imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + i] =
-                    (imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + i] >= me) *
-                            imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + i];
+                    (saved[(pixelY * imgData.w + pixelX) * cpp + i] >= me) *
+                            saved[(pixelY * imgData.w + pixelX) * cpp + i];
             };
 
             for (; y < imgData.h / ar.bottom; y++)
