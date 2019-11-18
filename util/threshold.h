@@ -51,9 +51,11 @@ public:
                             });
 
                 stbi_uc me = imgData.pixels[indices[(yEnd - yStart + 1) * (xEnd - xStart + 1) / 2]];
-                imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + 0] = me;
-                imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + 1] = me;
-                imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + 2] = me;
+
+                for (int i = 0; i < 3; i++)
+                    imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + i] =
+                    (imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + i] >= me) *
+                            imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + i];
             };
 
             for (; y < imgData.h / ar.bottom; y++)
