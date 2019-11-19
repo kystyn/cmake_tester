@@ -18,9 +18,9 @@ void brightness( image_data const &imgData )
          i < imgData.w * imgData.h * imgData.compPerPixel;
          i += imgData.compPerPixel)
     {
-        auto newc = stbi_uc(double(imgData.pixels[i + 0] * 0.3 +
-                imgData.pixels[i + 1] * 0.6 +
-                imgData.pixels[i + 2] * 0.1));
+        auto newc = stbi_uc(int((imgData.pixels[i + 0] * 3 +
+                imgData.pixels[i + 1] * 6 +
+                imgData.pixels[i + 2] * 1) / 10));
         for (int c = 0; c < 3; c++)
             imgData.pixels[i + c] = newc;
     }
