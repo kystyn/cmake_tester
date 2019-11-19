@@ -44,7 +44,7 @@ public:
                         indices[i++] = (y * imgData.w + x) * cpp;
 
                 std::stable_sort(indices.begin(),
-                          indices.begin() + (yEnd - yStart + 1) * (xEnd - xStart + 1),
+                          indices.begin() + (yEnd - yStart + 1) * (xEnd - xStart + 1) + 1,
                             [saved]( int idx1, int idx2 ) -> bool
                             {
                                 return saved[idx1] < saved[idx2];
