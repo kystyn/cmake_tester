@@ -50,11 +50,11 @@ public:
                                 return saved[idx1] < saved[idx2];
                             });
 
-                stbi_uc me = imgData.pixels[indices[(yEnd - yStart + 1) * (xEnd - xStart + 1) / 2]];
+                stbi_uc me = saved[indices[(yEnd - yStart + 1) * (xEnd - xStart + 1) / 2]];
 
                 for (int i = 0; i < 3; i++)
                     imgData.pixels[(pixelY * imgData.w + pixelX) * cpp + i] =
-                    (saved[(pixelY * imgData.w + pixelX) * cpp + i] > me) *
+                    (saved[(pixelY * imgData.w + pixelX) * cpp + i] >= me) *
                             saved[(pixelY * imgData.w + pixelX) * cpp + i];
             };
 
